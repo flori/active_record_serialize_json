@@ -13,20 +13,20 @@ module ActiveRecord
 
     def before_save(record)
       json = serialize record
-      record.__send__(:"#{@attribute}=", json)
+      record.write_attribute(@attribute, json)
     end
 
     def after_save(record)
       data = deserialize record
-      record.__send__(:"#{@attribute}=", data)
+      record.write_attribute(@attribute, data)
     end
 
     def serialize(record)
-      self.class.serialize(record.__send__(@attribute), @serialize)
+      self.class.serialize(record.read_attribute(@attribute), @serialize)
     end
 
     def deserialize(record)
-      self.class.deserialize(record.__send__(@attribute), @deserialize)
+      self.class.deserialize(record.read_attribute(@attribute), @deserialize)
     end
 
     def self.serialize(value, opts = {})
@@ -60,7 +60,7 @@ module ActiveRecord
         define_method(:after_find) do
           super if defined? super
           self.class.serialize_json_attributes.each do |attribute, sj|
-            __send__(:"#{attribute}=", sj.deserialize(self))
+            write_attribute(attribute, sj.deserialize(self))
           end
         end
       end
