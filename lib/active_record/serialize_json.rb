@@ -13,12 +13,14 @@ module ActiveRecord
 
     def before_save(record)
       json = serialize record
-      record.write_attribute(@attribute, json)
+      a = @attribute
+      record.instance_eval { write_attribute(a, json) }
     end
 
     def after_save(record)
       data = deserialize record
-      record.write_attribute(@attribute, data)
+      a = @attribute
+      record.instance_eval { write_attribute(a, data) }
     end
 
     def serialize(record)
@@ -31,14 +33,18 @@ module ActiveRecord
 
     def self.serialize(value, opts = {})
       opts ||= {}
-      JSON.generate(value, opts)
+      value.to_json(opts)
     end
 
     def self.deserialize(value, opts = {})
       opts ||= {}
       JSON.parse(value, opts)
     rescue => e
-      Rails.logger.warn e
+      if defined?(::Rails)
+        ::Rails.logger.warn e
+      else
+        warn "#{e.class}: #{e}"
+      end
       value
     end
   end
@@ -47,8 +53,8 @@ module ActiveRecord
     def self.serialize_json(attribute, opts = {})
       sj = SerializeJSON.new(attribute, opts)
 
-      before_save sj
       after_save  sj
+      before_save sj
 
       unless respond_to?(:serialize_json_attributes)
         cattr_accessor :serialize_json_attributes
@@ -56,11 +62,23 @@ module ActiveRecord
       end
       serialize_json_attributes[sj.attribute] = sj
 
-      class_eval do
-        define_method(:after_find) do
-          super if defined? super
-          self.class.serialize_json_attributes.each do |attribute, sj|
-            write_attribute(attribute, sj.deserialize(self))
+      if ::ActiveRecord::VERSION::MAJOR >= 3
+        class_eval do
+          after_find do |record|
+            serialize_json_attributes.each do |attribute, sj|
+              record.instance_eval do
+                write_attribute(attribute, sj.deserialize(record))
+              end
+            end
+          end
+        end
+      else
+        class_eval do
+          define_method(:after_find) do
+            super if defined? super
+            self.class.serialize_json_attributes.each do |attribute, sj|
+              write_attribute(attribute, sj.deserialize(self))
+            end
           end
         end
       end

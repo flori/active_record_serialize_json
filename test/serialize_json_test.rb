@@ -6,7 +6,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'active_record/serialize_json'
 
 ActiveRecord::Base.establish_connection(
-  :adapter  => "mysql",
+  :adapter  => ActiveRecord::VERSION::MAJOR >= 3 ? 'mysql2' : 'mysql',
   :database => ENV['DATABASE'] || "test",
   :username => ENV['USER'],
   :password => ENV['PASSWORD']

@@ -44,7 +44,6 @@ if defined? Gem
 
     s.require_path = 'lib'
 
-    s.has_rdoc     = true
     s.rdoc_options = PKG_RDOC_OPTIONS
     s.extra_rdoc_files << 'README'
     #s.test_files << 'test/serialize_json_test.rb'
@@ -53,8 +52,8 @@ if defined? Gem
     s.email             = "flori@ping.de"
     s.homepage          = "http://flori.github.com/#{PKG_NAME}"
     s.rubyforge_project = "#{PKG_NAME}"
-    s.add_dependency    'json',         '~>1.4'
-    s.add_dependency    'activerecord', '~>2.3'
+    s.add_dependency    'json',         '~>1.0'
+    s.add_dependency    'activerecord'
   end
 
   Rake::GemPackageTask.new(spec) do |pkg|
