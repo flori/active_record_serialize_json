@@ -33,7 +33,8 @@ module ActiveRecord
 
     def self.serialize(value, opts = {})
       opts ||= {}
-      value.to_json(opts)
+      result = value.to_json(opts)
+      result =~ /\A\s*[{\[]/ and result
     end
 
     def self.deserialize(value, opts = {})
