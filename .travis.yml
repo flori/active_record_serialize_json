@@ -6,3 +6,5 @@ rvm:
   - ree
   - rbx
   - jruby
+before_script:
+  - "mysql -e 'create database test;'"
