@@ -1,8 +1,10 @@
-require 'active_record/base'
+require 'active_record'
 require 'json'
 
 module ActiveRecord
   class SerializeJSON
+    require 'active_record/serialize_json/version'
+
     def initialize(attribute, opts = {})
       @attribute = attribute.to_s.to_sym
       @serialize = opts[:serialize] || {}
@@ -33,7 +35,7 @@ module ActiveRecord
 
     def self.serialize(value, opts = {})
       opts ||= {}
-      result = value.to_json(opts)
+      result = JSON(value, opts)
       result =~ /\A\s*[{\[]/ and result
     end
 
