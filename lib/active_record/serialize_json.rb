@@ -34,13 +34,21 @@ module ActiveRecord
     end
 
     def self.serialize(value, opts = {})
-      opts ||= {}
+      opts ||= {
+        :max_nesting => false,
+        :allow_nan   => true,
+        :quirks_mode => true,
+      }
       result = JSON(value, opts)
       result =~ /\A\s*[{\[]/ and result
     end
 
     def self.deserialize(value, opts = {})
-      opts ||= {}
+      opts ||= {
+        :max_nesting => false,
+        :allow_nan   => true,
+        :quirks_mode => true,
+      }
       JSON.parse(value, opts)
     rescue => e
       if defined?(::Rails)
