@@ -49,7 +49,11 @@ module ActiveRecord
         :allow_nan   => true,
         :quirks_mode => true,
       }
-      JSON.parse(value, opts)
+      if value.to_s.strip.empty?
+        nil
+      else
+        JSON.parse(value, opts)
+      end
     rescue => e
       if defined?(::Rails)
         ::Rails.logger.warn e
