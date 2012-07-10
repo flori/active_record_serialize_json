@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Florian Frank"]
-  s.date = "2012-01-26"
+  s.date = "2012-07-10"
   s.description = "Serialize an ActiveRecord::Base attribute via JSON in Ruby on Rails"
   s.email = "flori@ping.de"
   s.extra_rdoc_files = ["README.rdoc", "lib/active_record/serialize_json/version.rb", "lib/active_record/serialize_json.rb", "lib/active_record_serialize_json.rb"]
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/flori/active_record_serialize_json"
   s.rdoc_options = ["--title", "ActiveRecordSerializeJson - Serialize an ActiveRecord::Base attribute via JSON", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.15"
+  s.rubygems_version = "1.8.24"
   s.summary = "Serialize an ActiveRecord::Base attribute via JSON"
   s.test_files = ["test/serialize_json_test.rb"]
 
@@ -22,18 +22,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<gem_hadar>, ["~> 0.1.4"])
+      s.add_development_dependency(%q<gem_hadar>, ["~> 0.1.8"])
       s.add_runtime_dependency(%q<json>, ["~> 1.6.0"])
       s.add_runtime_dependency(%q<activerecord>, ["< 3.1"])
       s.add_runtime_dependency(%q<mysql2>, ["~> 0.2.0"])
     else
-      s.add_dependency(%q<gem_hadar>, ["~> 0.1.4"])
+      s.add_dependency(%q<gem_hadar>, ["~> 0.1.8"])
       s.add_dependency(%q<json>, ["~> 1.6.0"])
       s.add_dependency(%q<activerecord>, ["< 3.1"])
       s.add_dependency(%q<mysql2>, ["~> 0.2.0"])
     end
   else
-    s.add_dependency(%q<gem_hadar>, ["~> 0.1.4"])
+    s.add_dependency(%q<gem_hadar>, ["~> 0.1.8"])
     s.add_dependency(%q<json>, ["~> 1.6.0"])
     s.add_dependency(%q<activerecord>, ["< 3.1"])
     s.add_dependency(%q<mysql2>, ["~> 0.2.0"])
